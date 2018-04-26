@@ -13,7 +13,8 @@
 		060FD9722080BD1900BBE9CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 060FD9712080BD1900BBE9CB /* Assets.xcassets */; };
 		060FD9752080BD1900BBE9CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 060FD9732080BD1900BBE9CB /* LaunchScreen.storyboard */; };
 		060FD9782080BD1900BBE9CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 060FD9772080BD1900BBE9CB /* main.m */; };
-		069B94E12091B40F009CEEEF /* Classes in Resources */ = {isa = PBXBuildFile; fileRef = 069B94E02091B40F009CEEEF /* Classes */; };
+		069B95112091C37C009CEEEF /* MJAnimationCirculation.m in Sources */ = {isa = PBXBuildFile; fileRef = 069B950D2091C37C009CEEEF /* MJAnimationCirculation.m */; };
+		069B95122091C37C009CEEEF /* MJAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 069B95102091C37C009CEEEF /* MJAnimationManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +28,10 @@
 		060FD9742080BD1900BBE9CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		060FD9762080BD1900BBE9CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		060FD9772080BD1900BBE9CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		069B94E02091B40F009CEEEF /* Classes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Classes; sourceTree = SOURCE_ROOT; };
+		069B950D2091C37C009CEEEF /* MJAnimationCirculation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJAnimationCirculation.m; sourceTree = "<group>"; };
+		069B950E2091C37C009CEEEF /* MJAnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJAnimationManager.h; sourceTree = "<group>"; };
+		069B950F2091C37C009CEEEF /* MJAnimationCirculation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJAnimationCirculation.h; sourceTree = "<group>"; };
+		069B95102091C37C009CEEEF /* MJAnimationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJAnimationManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +64,7 @@
 		060FD9672080BD1800BBE9CB /* MJAnimationManager */ = {
 			isa = PBXGroup;
 			children = (
-				069B94E02091B40F009CEEEF /* Classes */,
+				069B950C2091C37C009CEEEF /* Classes */,
 				060FD9682080BD1800BBE9CB /* AppDelegate.h */,
 				060FD9692080BD1800BBE9CB /* AppDelegate.m */,
 				060FD96B2080BD1800BBE9CB /* ViewController.h */,
@@ -73,6 +77,17 @@
 			);
 			path = MJAnimationManager;
 			sourceTree = "<group>";
+		};
+		069B950C2091C37C009CEEEF /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				069B950D2091C37C009CEEEF /* MJAnimationCirculation.m */,
+				069B950E2091C37C009CEEEF /* MJAnimationManager.h */,
+				069B950F2091C37C009CEEEF /* MJAnimationCirculation.h */,
+				069B95102091C37C009CEEEF /* MJAnimationManager.m */,
+			);
+			path = Classes;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -132,7 +147,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				060FD9752080BD1900BBE9CB /* LaunchScreen.storyboard in Resources */,
-				069B94E12091B40F009CEEEF /* Classes in Resources */,
 				060FD9722080BD1900BBE9CB /* Assets.xcassets in Resources */,
 				060FD9702080BD1800BBE9CB /* Main.storyboard in Resources */,
 			);
@@ -145,9 +159,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				069B95122091C37C009CEEEF /* MJAnimationManager.m in Sources */,
 				060FD96D2080BD1800BBE9CB /* ViewController.m in Sources */,
 				060FD9782080BD1900BBE9CB /* main.m in Sources */,
 				060FD96A2080BD1800BBE9CB /* AppDelegate.m in Sources */,
+				069B95112091C37C009CEEEF /* MJAnimationCirculation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,7 +304,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 76MM79XMJ9;
 				INFOPLIST_FILE = MJAnimationManager/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,7 +322,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 76MM79XMJ9;
 				INFOPLIST_FILE = MJAnimationManager/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
