@@ -103,7 +103,18 @@ typedef NS_ENUM(NSUInteger, MJAnimationStatus) {
                 }
                 
                 UIView *aView = _arrViews[i];
-                [aView.layer addAnimation:animationCopy forKey:nil];
+                
+                if (_interval > 0) {
+                    _status = MJAnimationStatus_Active;
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_interval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        if (self.status == MJAnimationStatus_Inactive || self.status == MJAnimationStatus_Active) {
+                            [aView.layer addAnimation:animationCopy forKey:nil];
+                        }
+                    });
+                } else {
+                    [aView.layer addAnimation:animationCopy forKey:nil];
+                }
             }
             break;
         case MJAnimationStatus_Active:

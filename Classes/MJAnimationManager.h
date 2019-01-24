@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger, MJAnimationManagerMode) {
 
 @interface MJAnimationManager : NSObject <CAAnimationDelegate>
 @property (nonatomic, assign) MJAnimationManagerMode mode;///< 动画控制模式 （默认：CompleteAnimat每次动画都均完整执行）
+@property (nonatomic, assign) CGFloat interval;///< 动画间隔
 
 /**
  创建执行动画的管理器
