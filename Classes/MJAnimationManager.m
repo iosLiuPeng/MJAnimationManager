@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger, MJAnimationStatus) {
 @property (nonatomic, strong) NSArray *arrViews;            ///< 所有参与动画的视图
 @property (nonatomic, strong) CAAnimation *animation;       ///< 动画
 @property (nonatomic, copy) ConfigBlock configBlock;        ///< 每个动画循环开始前的调整工作(用于调整视图的初始位置。参数中的block会存储起来，所以使用外部对象时需使用弱引用)
+@property (nonatomic, copy) GetAnimation getAnimationBlock;///< 取动画
 
 @property (nonatomic, assign) MJAnimationStatus status;   ///< 动画状态
 @property (nonatomic, assign) CGFloat totalRepeatCount; ///< 动画总重复次数
@@ -39,27 +40,31 @@ typedef NS_ENUM(NSUInteger, MJAnimationStatus) {
  创建执行动画的管理器
  
  @param view 需要动画的视图
- @param animation 动画
+ @param animationBlock 取动画
  @return 动画管理器实例
  */
-- (instancetype)initWithView:(UIView *)view withAnimation:(CAAnimation *)animation
+- (instancetype)initWithView:(UIView *)view withAnimation:(GetAnimation)animationBlock
 {
-    return [self initWithViewArray:view? @[view]: nil withAnimation:animation];
+    return [self initWithViewArray:view? @[view]: nil withAnimation:animationBlock];
 }
 
 /**
  创建执行动画的管理器
 
  @param viewArray 需要动画的视图数组（所有视图同步动画）
- @param animation 动画
+ @param animationBlock 取动画
  @return 动画管理器实例
  */
-- (instancetype)initWithViewArray:(NSArray *)viewArray withAnimation:(CAAnimation *)animation
+- (instancetype)initWithViewArray:(NSArray *)viewArray withAnimation:(GetAnimation)animationBlock
 {
     self = [super init];
     if (self) {
         _arrViews = viewArray;
-        self.animation = animation;
+        
+        _getAnimationBlock = animationBlock;
+        if (_getAnimationBlock) {
+            self.animation = _getAnimationBlock();
+        }
         
         // 监听app活跃、失活通知
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
@@ -287,15 +292,25 @@ typedef NS_ENUM(NSUInteger, MJAnimationStatus) {
 /// 屏幕旋转
 - (void)screenWillRotation
 {
-    if (_status == MJAnimationStatus_Pause) {
-        // 暂停视图时，改变了View的Layer层速度等，此时旋转屏幕会导致自动布局出错，所以需要重置视图
-        [self removeAllAnimations];
-        _status = MJAnimationStatus_WaitRecover;
-    } else if (_status == MJAnimationStatus_Active) {
-        // 旋转后视图大小不同，会导致连续两次的动画速度不一致，感觉动画很突兀，这里暂时考虑直接重置动画，然后重新开始
-        _status = MJAnimationStatus_Restart;
-        [self removeAllAnimations];
-    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.status == MJAnimationStatus_Pause) {
+            // 暂停视图时，改变了View的Layer层速度等，此时旋转屏幕会导致自动布局出错，所以需要重置视图
+            if (self.getAnimationBlock) {
+                self.animation = self.getAnimationBlock();
+            }
+            
+            [self removeAllAnimations];
+            self.status = MJAnimationStatus_WaitRecover;
+        } else if (self.status == MJAnimationStatus_Active) {
+            // 旋转后视图大小不同，会导致连续两次的动画速度不一致，感觉动画很突兀，这里暂时考虑直接重置动画，然后重新开始
+            if (self.getAnimationBlock) {
+                self.animation = self.getAnimationBlock();
+            }
+            
+            self.status = MJAnimationStatus_Restart;
+            [self removeAllAnimations];
+        }
+    });
 }
 
 // 程序活跃

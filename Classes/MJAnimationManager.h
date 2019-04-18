@@ -11,6 +11,8 @@
 
 /// 每个动画循环开始前的用于调整视图的初始位置
 typedef void(^ConfigBlock)(NSArray<UIView *> *arrViews, CAAnimation *animation);
+/// 用于获取动画（旋转后，基于frame进行的动画会偏移，所以要重新取动画）
+typedef CAAnimation *(^GetAnimation)(void);
 
 /// 动画控制模式
 typedef NS_ENUM(NSUInteger, MJAnimationManagerMode) {
@@ -26,11 +28,11 @@ typedef NS_ENUM(NSUInteger, MJAnimationManagerMode) {
  创建执行动画的管理器
  
  @param viewArray 需要动画的视图数组（所有视图同步动画）
- @param animation 动画
+ @param animationBlock 动画
  @return 动画管理器实例
  */
-- (instancetype)initWithViewArray:(NSArray *)viewArray withAnimation:(CAAnimation *)animation NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithView:(UIView *)view withAnimation:(CAAnimation *)animation;
+- (instancetype)initWithViewArray:(NSArray *)viewArray withAnimation:(GetAnimation)animationBlock NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithView:(UIView *)view withAnimation:(GetAnimation)animationBlock;
 
 /// 每个动画循环开始前的用于调整视图的初始位置 (❗️参数中的block会存储起来，所以使用外部对象时需使用弱引用)
 - (void)configBeforeEachStart:(ConfigBlock)config;
