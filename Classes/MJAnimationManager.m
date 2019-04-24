@@ -25,6 +25,7 @@ typedef NS_ENUM(NSUInteger, MJAnimationStatus) {
 @property (nonatomic, assign) MJAnimationStatus status;   ///< 动画状态
 @property (nonatomic, assign) CGFloat totalRepeatCount; ///< 动画总重复次数
 @property (nonatomic, assign) NSInteger repeatCount;    ///< 当前动画已重复次数
+// TODO: 需要将准备停止，改为动画状态的一种
 @property (nonatomic, assign) BOOL willStop;            ///< 是否准备停止
 @end
 
@@ -301,7 +302,7 @@ typedef NS_ENUM(NSUInteger, MJAnimationStatus) {
             
             [self removeAllAnimations];
             self.status = MJAnimationStatus_WaitRecover;
-        } else if (self.status == MJAnimationStatus_Active) {
+        } else if (self.status == MJAnimationStatus_Active && self.willStop == NO) {
             // 旋转后视图大小不同，会导致连续两次的动画速度不一致，感觉动画很突兀，这里暂时考虑直接重置动画，然后重新开始
             if (self.getAnimationBlock) {
                 self.animation = self.getAnimationBlock();
@@ -332,7 +333,7 @@ typedef NS_ENUM(NSUInteger, MJAnimationStatus) {
      */
     [self removeAllAnimations];
     
-    if (_status == MJAnimationStatus_Active) {
+    if (_status == MJAnimationStatus_Active && _willStop == NO) {
         _status = MJAnimationStatus_WaitRecover;
     } else {
         _status = MJAnimationStatus_Inactive;
@@ -353,7 +354,7 @@ typedef NS_ENUM(NSUInteger, MJAnimationStatus) {
     // 页面消失会导致view重绘，所以需要重置视图，而不能暂停视图
     [self removeAllAnimations];
     
-    if (_status == MJAnimationStatus_Active) {
+    if (_status == MJAnimationStatus_Active && _willStop == NO) {
         _status = MJAnimationStatus_WaitRecover;
     } else {
         _status = MJAnimationStatus_Inactive;
